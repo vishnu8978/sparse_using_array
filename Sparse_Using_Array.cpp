@@ -31,7 +31,7 @@ public:
 };
 
 int main() {
-    // Define the sparse matrix from the image
+    
     int matrix[4][5] = {
         {0, 0, 3, 0, 4},
         {0, 0, 5, 7, 0},
@@ -50,7 +50,7 @@ int main() {
         }
     }
 
-    // Display the original matrix
+  
     std::cout << "Original Matrix:\n";
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 5; ++j) {
@@ -59,7 +59,6 @@ int main() {
         std::cout << "\n";
     }
 
-    // Display the sparse matrix representation
     std::cout << "\nSparse Matrix Representation:\n";
     sparseMatrix.display();
 
