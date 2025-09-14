@@ -1,57 +1,63 @@
 #include <iostream>
 #include <vector>
 
-class SparseMatrix {
+// This class is the storage of compressed sparse matrix
+class MatrixStorage {
 private:
-    std::vector<int> row;
-    std::vector<int> col;
-    std::vector<int> value;
-    int numRows, numCols;
+    // The below created vectors store only non zero values.
+    std::vector<int> rowIndex;      // Here are non zero elements in row position
+    std::vector<int> columnIndex;   
+    std::vector<int> nonZeroValues; 
+    int numRows, numCols;           
 
 public:
-    SparseMatrix(int rows, int cols) : numRows(rows), numCols(cols) {}
+    // This constructor is created to control the size of matrix
+    MatrixStorage(int rows, int cols) : numRows(rows), numCols(cols) {}
 
-    void addElement(int r, int c, int val) {
-        if (val != 0) {
-            row.push_back(r);
-            col.push_back(c);
-            value.push_back(val);
+    // This function converts only non zero elements into sparse representation.
+    void insertValue(int r, int c, int val) {
+        if (val != 0) { 
+            rowIndex.push_back(r);
+            columnIndex.push_back(c);
+            nonZeroValues.push_back(val);
         }
     }
 
-    void display() {
+    // This Function is created to print the converted sparse representation
+    void printSparse() {
         std::cout << "Row\t";
-        for (int i : row) std::cout << i << " ";
+        for (int i : rowIndex) std::cout << i << " ";
         std::cout << "\nColumn\t";
-        for (int i : col) std::cout << i << " ";
+        for (int j : columnIndex) std::cout << j << " ";
         std::cout << "\nValue\t";
-        for (int i : value) std::cout << i << " ";
+        for (int v : nonZeroValues) std::cout << v << " ";
         std::cout << std::endl;
     }
 };
 
 int main() {
-    
+    // Defined a 4x5 matrix with as many as zeros in it
     int matrix[4][5] = {
-        {0, 0, 3, 0, 4},
-        {0, 0, 5, 7, 0},
+        {0, 1, 3, 0, 0},
+        {0, 0, 6, 8, 0},
         {0, 0, 0, 0, 0},
-        {0, 2, 6, 0, 0}
+        {0, 3, 9, 0, 0}
     };
 
-    SparseMatrix sparseMatrix(4, 5);
+    // This object is created for class matrixstorage for 4x5 matrix
+    MatrixStorage storage(4, 5);
 
-    // Populate the sparse matrix
+    
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 5; ++j) {
             if (matrix[i][j] != 0) {
-                sparseMatrix.addElement(i, j, matrix[i][j]);
+                storage.insertValue(i, j, matrix[i][j]);
             }
         }
     }
 
-  
-    std::cout << "Original Matrix:\n";
+    // Here we are Printing the original matrix representation
+    std::cout << "Original Matrix Representation:\n";
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 5; ++j) {
             std::cout << matrix[i][j] << " ";
@@ -59,8 +65,9 @@ int main() {
         std::cout << "\n";
     }
 
-    std::cout << "\nSparse Matrix Representation:\n";
-    sparseMatrix.display();
+    // Here we are Printing the representation of converted sparse matrix
+    std::cout << "\nRepresentation of Sparse Matrix:\n";
+    storage.printSparse();
 
     return 0;
 }
